@@ -92,4 +92,5 @@ Here's a [link to my video result](https://www.youtube.com/watch?v=CgaxwGiZOko&f
 
 * In order to detect vehicles in the near and far away in the same time, the whole image need to be searched multiple times with different scales. This slows down the process.
 * Small scales are needed for dectection of cars far away, yet they are more prone to create false positive. A well designed search method with combination of search area and scale may improve the performance.
+* Utilize the continuity of video to improve the stability and credibility of result
 
