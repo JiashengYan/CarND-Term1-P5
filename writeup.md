@@ -62,7 +62,7 @@ Instead, I applied the function `find_cars`in cell 4.1 to detect image windows. 
 
 In order to accalerate the process further, the search area is limited to lower half of the image through parameters: `ystart=360, ystop=650`. 
 
-As the distance between the camera and other vehicles has a big influence on the detection rate, I need to search the image three times on three scales: 1, 1.5, 2. To do this, I modified the `find_cars`in cell 4.1 to `find_cars_multiscales` in cell 9.3, which take a list of scales and return window list and marked image.
+As the distance between the camera and other vehicles has a big influence on the detection rate, I need to search the image three times on three scales: 1, 1.5, 2. To do this, I modified the `find_cars`in cell 4.1 to `find_cars_multiscales` in cell 9.3, which take a list of scales, adjust cell step size according to scale value and return window list and marked image.
 
 ![alt text][image5]
 
@@ -75,6 +75,8 @@ Ultimately I searched on Three scales using YCrCb 3-channel HOG features plus sp
 #### 3. Filtered combined overlapping bounding boxes.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+
+In order to improve the stability and credibility of results, the continuity of video frames was used here. I utilized the `collections.deque` to record the latest detected results, as most of the false positives only apears in one or two frames, a filter can elimite them effectively.
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
@@ -92,5 +94,5 @@ Here's a [link to my video result](https://www.youtube.com/watch?v=CgaxwGiZOko&f
 
 * In order to detect vehicles in the near and far away in the same time, the whole image need to be searched multiple times with different scales. This slows down the process.
 * Small scales are needed for dectection of cars far away, yet they are more prone to create false positive. A well designed search method with combination of search area and scale may improve the performance.
-* Utilize the continuity of video to improve the stability and credibility of result
+
 
