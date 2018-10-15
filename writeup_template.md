@@ -11,14 +11,13 @@ The goals / steps of this project are the following:
 * Estimate a bounding box for vehicles detected.
 
 [//]: # (Image References)
-[image1]: ./examples/car_not_car.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image1]: ./output_images/hog.png
+[image2]: ./output_images/hog2.png
+[image3]: ./output_images/hog3.png
+[image4]: ./output_images/detecttest.png
+[image5]: ./output_images/detecttest_1.png
+[image6]: ./output_images/heatmap.png
+
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -38,7 +37,7 @@ I then explored different color spaces and different `skimage.hog()` parameters 
 Here is an example using the `YCrCb` color space and HOG parameters of `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 
-![alt text][image2]
+![alt text][image1]
 
 #### 2. Choice of HOG parameters.
 
@@ -52,7 +51,7 @@ Here is an example using the same color spaces:`YCrCb` yet different HOG paramet
 * `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(4, 4)`
 * `orientations=12`, `pixels_per_cell=(4, 4)` and `cells_per_block=(2, 2)`
 
-![alt text][image2]
+![alt text][image3]
 I tried various combinations of parameters and chose the HOG parameters that provided the maximum prediction accuracy on the test-set after training.
 
 #### 3. Train a classifier using selected HOG features and color features.
@@ -68,37 +67,27 @@ In order to accalerate the process further, the search area is limited to lower 
 
 As the distance between the camera and other vehicles has a big influence on the detection rate, I need to search the image three times on three scales: 0.75, 1, 2. To do this, I modified the `find_cars`in cell 4.1 to `find_cars_multiscales` in cell 9.3, which take a list of scales and return window list and marked image.
 
-![alt text][image3]
+![alt text][image5]
 
 #### 2. Result of test images and methods to optimize the performance?
 
 Ultimately I searched on Three scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
 ![alt text][image4]
----
 
-### Video Implementation
-
-Here's a [link to my video result](./project_video.mp4)
-
-
-#### 2. Filtered combined overlapping bounding boxes.
+#### 3. Filtered combined overlapping bounding boxes.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
-### Here are six frames and their corresponding heatmaps:
-
-![alt text][image5]
-
-### Here is the output of `scipy.ndimage.measurements.label()` on the integrated heatmap from all six frames:
 ![alt text][image6]
 
-### Here the resulting bounding boxes are drawn onto the last frame in the series:
-![alt text][image7]
+---
 
+### Video Implementation
 
+Here's a [link to my video result](./project_video.mp4)
 
 ---
 
