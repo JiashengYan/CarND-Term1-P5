@@ -28,14 +28,7 @@ The goals / steps of this project are the following:
 
 #### 1. Extract HOG features from the training images.
 
-The code for this step is contained in the second code cell of "./Vehicle_Detection.ipynb". I directly used the uitl funtions in the Udacity lessons for this part as it works well.
-
-I started by reading in all the `vehicle` and `non-vehicle` images.  Here is an example of one of each of the `vehicle` and `non-vehicle` classes:
-
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
-
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
+The code for this step is contained in the second code cell of "./Vehicle_Detection.ipynb". I directly used the uitl funtions in the Udacity lessons for this part as it works well.I started by reading in all the `vehicle` and `non-vehicle` images and exploring different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.Here is an example using the `YCrCb` color space and HOG parameters of `orientations=12`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
 
 ![alt text][image1]
 
@@ -56,7 +49,11 @@ I tried various combinations of parameters and chose the HOG parameters that pro
 
 #### 3. Train a classifier using selected HOG features and color features.
 
-I trained a linear SVM, in cell 8, using the features from the extract_features() function in cell 2 that stacks the HOG, spatial binning and color histogram features. These features are then scaled using StandardScaler() for training. The final parametrs that I used for extracting the features are: HOG orientations = 9 pix_per_cell = (8,8) cell_per_block = (2,2) hog_channel = 'ALL' spatial binning size = (32, 32) histogram bins = 32. The data are then split into training and test sets with 75% to 25% ratio. For tuning the C parameter of SVM classifier I used GridSearchCV function to search for the best combination. Between the cases I searched, the best comibnation was achieved by YUV colorspace and C=0.1 the gave %99 test set accuracy.
+I trained a linear SVM, in cell 8, using the features from the extract_features() function in cell 2 that stacks the HOG, spatial binning and color histogram features. These features are then scaled using StandardScaler() for training. The final parametrs that I used for extracting the features are: 
+
+HOG orientations = 9 pix_per_cell = (8,8) cell_per_block = (2,2) hog_channel = 'ALL' spatial binning size = (32, 32) histogram bins = 32. 
+
+The data are then split into training and test sets with 75% to 25% ratio. For tuning the C parameter of SVM classifier I used GridSearchCV function to search for the best combination. Between the cases I searched, the best comibnation was achieved by YUV colorspace and C=0.1 the gave %99 test set accuracy.
 
 ### Sliding Window Search
 At first I used the slidng window function in cell 2 to create windows with defined size: `xy_window` and steps: `xy_overlap` on the image and then extracted the features of image in each image using function `search_windows` in cell 4. All the window detected as car will be recorded. This pipeline works well yet lack of efficiency.
@@ -65,7 +62,7 @@ Instead, I applied the function `find_cars`in cell 4.1 to detect image windows. 
 
 In order to accalerate the process further, the search area is limited to lower half of the image through parameters: `ystart=360, ystop=650`. 
 
-As the distance between the camera and other vehicles has a big influence on the detection rate, I need to search the image three times on three scales: 0.75, 1, 2. To do this, I modified the `find_cars`in cell 4.1 to `find_cars_multiscales` in cell 9.3, which take a list of scales and return window list and marked image.
+As the distance between the camera and other vehicles has a big influence on the detection rate, I need to search the image three times on three scales: 1, 1.5, 2. To do this, I modified the `find_cars`in cell 4.1 to `find_cars_multiscales` in cell 9.3, which take a list of scales and return window list and marked image.
 
 ![alt text][image5]
 
