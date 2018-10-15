@@ -49,11 +49,11 @@ I tried various combinations of parameters and chose the HOG parameters that pro
 
 #### 3. Train a classifier using selected HOG features and color features.
 
-I trained a linear SVM, in cell 8, using the features from the extract_features() function in cell 2 that stacks the HOG, spatial binning and color histogram features. These features are then scaled using StandardScaler() for training. The final parametrs that I used for extracting the features are: 
+I trained a linear SVM, in cell 8, using the features from the extract_features() function in cell 2 that stacks the HOG, spatial binning and color histogram features. The final parametrs that I used for extracting the features are: 
 
 HOG orientations = 9 pix_per_cell = (8,8) cell_per_block = (2,2) hog_channel = 'ALL' spatial binning size = (32, 32) histogram bins = 32. 
 
-The data are then split into training and test sets with 75% to 25% ratio. For tuning the C parameter of SVM classifier I used GridSearchCV function to search for the best combination. Between the cases I searched, the best comibnation was achieved by YUV colorspace and C=0.1 the gave %99 test set accuracy.
+The data are shuffled and splited into training and test sets with 75% to 25% ratio and then scaled using StandardScaler().For tuning the C parameter of SVM classifier I used GridSearchCV function to search for the best combination. Between the cases I searched, the best comibnation was achieved by YUV colorspace and C=0.1 the gave %99 test set accuracy.
 
 ### Sliding Window Search
 At first I used the slidng window function in cell 2 to create windows with defined size: `xy_window` and steps: `xy_overlap` on the image and then extracted the features of image in each image using function `search_windows` in cell 4. All the window detected as car will be recorded. This pipeline works well yet lack of efficiency.
@@ -84,7 +84,7 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ### Video Implementation
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](https://www.youtube.com/watch?v=CgaxwGiZOko&feature=youtu.be)
 
 ---
 
